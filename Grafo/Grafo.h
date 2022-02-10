@@ -13,11 +13,14 @@ public:
     list<No *> getNos();
     list<No *> getNosAbertos();
     list<No *> getNosFechados();
-    void setNo(int id, int idPai);
+    void ramificaNo(int idNo);
+    void setNo(int idPai, int coluna, int linha);
     No* buscaNo(int id); 
     No* getRaiz();
     void fazerJogadas();
-
+    void criaArvore();
+    list<No *> caminho(int id);
+    void caminho(int id, );
 private:
     int ordem;
     list<No *> nos;
