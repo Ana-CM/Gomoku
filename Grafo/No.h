@@ -7,26 +7,27 @@
 #include <string>
 using namespace std;
 
-
 class No
 {
 public:
-    No(int id, int idPai, int coluna, int linha, int jogador, Tabuleiro *tabuleiro);
+    No(int id, int idPai, int jogador, Tabuleiro *tabuleiro);
     ~No();
     int getId();
-    Tabuleiro* getTabuleiro();
+    Tabuleiro *getTabuleiro();
     int getHeuristica();
-    string getEstado();
+    int getEstado();
     void addFilho(int id);
+    int getJogador();
+    void calculaHeuristica();
 
 private:
     int id;
     int idPai;
-    Tabuleiro* tabuleiro;
+    Tabuleiro *tabuleiro;
     int heuristica;
-    string estado;
+    int jogador;
+    int estado;
     list<int> idsFilhos;
-    int calculaHeuristica();
 };
 
 #endif

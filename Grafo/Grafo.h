@@ -11,13 +11,18 @@ public:
     Grafo();
     ~Grafo();
     list<No *> getNos();
-    void setNo(int id, int idPai, int coluna, int linha, int jogador);
+    list<No *> getNosAbertos();
+    list<No *> getNosFechados();
+    void setNo(int id, int idPai);
     No* buscaNo(int id); 
     No* getRaiz();
+    void fazerJogadas();
 
 private:
     int ordem;
     list<No *> nos;
+    list<No *> nosAbertos;
+    list<No *> nosFechados;
     No *raiz;
 };
 
