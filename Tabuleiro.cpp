@@ -24,8 +24,6 @@ public:
                 tabuleiro[i][j] = 0;
             }
         }
-
-        imprimeTabuleiro();
     }
 
     void imprimeTabuleiro()
@@ -41,23 +39,25 @@ public:
         }
     }
 
-    int fazerJogada(int jogador)
+    // int contaVazio()
+    // {
+    //     int cont = 0;
+    //     for (size_t i = 0; i < cont; i++)
+    //     {
+    //         for (size_t j = 0; j < cont; j++)
+    //         {
+    //             if (tabuleiro[i][j] == 0)
+    //                 cont++;
+    //         }
+    //     }
+    // }
+
+    int fazerJogada(int jogador, int coluna, int linha)
     {
 
-        for (size_t i = 0; i < 4; i++)
-        {
-            for (size_t j = 0; j < 4; j++)
-            {
-                if (tabuleiro[i][j] == 0)
-                {
-                    tabuleiro[i][j] = jogador;
-                    return ganhouPreta();
-                }
-            }
-        }
+        tabuleiro[linha][coluna] = jogador;
 
-        return 4;
-
+        return ganhouPreta();
     }
 
     int verificarCasa(int coluna, int linha)
