@@ -39,6 +39,7 @@ int main(){
 int buscarSolucao(No *atual,vector<No*> *abertos,vector<No*> *fechados,Grafo *gomoku) {
 
     int heuristica=0;
+    int contador = 0;
     int idHeuristica = 0;
     No *candidato;
     for(int i=0;i<atual->getFilhos().size();i++)
