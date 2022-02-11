@@ -17,24 +17,24 @@ int main()
     vector<No *> caminho;
 
     abertos.push_back(no->getId());
-
+    
     while( true ) {
 
         gomoku->ramificaNo(no->getId());  
 
-        // cout << endl;
-        // cout << "Abertos: ";
-        // for (auto i = abertos.begin(); i != abertos.end(); ++i) {
-        //      cout << *i << " " ;
-        // }
-        // cout << endl;
+        cout << endl;
+        cout << "Abertos: ";
+        for (auto i = abertos.begin(); i != abertos.end(); ++i) {
+             cout << *i << " " ;
+        }
+        cout << endl;
 
-        // cout << "Fechados: ";
-        // for (auto i = fechados.begin(); i != fechados.end(); ++i) {
-        //      cout << *i << " " ;
-        // }
-        // cout << endl;
-        // cout << endl;
+        cout << "Fechados: ";
+        for (auto i = fechados.begin(); i != fechados.end(); ++i) {
+             cout << *i << " " ;
+        }
+        cout << endl;
+        cout << endl;
 
         fechados.push_back(no->getId());
 
