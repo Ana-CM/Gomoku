@@ -14,52 +14,23 @@ Grafo::Grafo()
     nos.push_back(raiz);
 };
 
-// void Grafo::criaArvore()
-// {
-//     int contId = 1;
-//     No *no = buscaNo(contId);
+vector<No *> Grafo::caminho(int id)
+{
+    vector<No *> result;
 
-//     for (size_t k = 0; k < 16; k++)
-//     {
-//         setNo(no->getId());
-//     }
+    No *no = buscaNo(id);
+    No *aux;
+    result.push_back(no);
 
-//     contId++;
-//     // for (size_t w = 15; w >= 0; w--)
-//     // {
-//     for (size_t i = w + 1; i >= 0; i--)
-//     {
-//         if (i > 0)
-//         {
-//             for (size_t j = 0; j < 14; j++)
-//             {
-//                 setNo(no->getId());
-//             }
-//             contId++;
-//         }
-//     }
-// }
-// // }
+    while (no->getIdPai() != -1)
+    {   
+        aux = no;
+        no = buscaNo(aux->getIdPai());
+        result.push_back(no);
+    }
 
-// list<No *> Grafo::caminho(int id)
-// {
-//     list<No *> result;
-//     No *no = buscaNo(id);
-
-//     if (id == 1)
-//     {
-//         caminhoAux(no, result);
-//     }
-
-//     return result;
-// }
-// list<No *> Grafo::caminhoAux(No *no, list<No*> result)
-// {
-//     if (no->getIdPai() != 0)
-//     {
-//         return caminhoAux(buscaNo(no->getIdPai()), result.push_back(buscaNo(no->getIdPai())));
-//     }
-// }
+    return result;
+}
 
 void Grafo::ramificaNo(int idNo)
 {
@@ -71,7 +42,7 @@ void Grafo::ramificaNo(int idNo)
 
             if (no->getTabuleiro()->verificarCasa(j, i) == 0)
             {
-                setNo(idNo, i, j);
+                setNo(idNo, j, i);
             }
         }
     }

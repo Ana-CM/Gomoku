@@ -19,8 +19,8 @@ public:
     No* getRaiz();
     void fazerJogadas();
     void criaArvore();
-    // list<No *> caminho(int id);
-    // void caminho(int id);
+    vector<No *> caminho(int id);
+
 private:
     int ordem;
     list<No *> nos;
