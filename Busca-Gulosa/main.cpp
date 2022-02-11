@@ -9,6 +9,7 @@
 #include <bits/stdc++.h>
 
 vector<No *> buscaGulosa(Grafo *gomoku);
+vector<No *> bubbleSort(vector<No *> vec);
 
 int main()
 {
@@ -78,15 +79,21 @@ vector<No *> buscaGulosa(Grafo *gomoku)
                 cout << "Filhos : " << noAtual->getFilhos().size() << endl;
 
                 //Ordenação
-                sort(abertos.begin(), abertos.end());
+                abertos = bubbleSort(abertos);
+                //sort(abertos.begin(), abertos.end());
 
                 cout << "Abertos " << abertos.size() << endl;
                 cout << endl;
+                noAtual = abertos.front();
+                abertos.erase(abertos.begin());
             }
-
-            noAtual = abertos.front();
-            abertos.clear();
+            else
+            {
+                noAtual = abertos.front();
+                abertos.erase(abertos.begin());
+            }
         }
+
     }
     if (flag == false)
     {
@@ -95,3 +102,24 @@ vector<No *> buscaGulosa(Grafo *gomoku)
 
     return caminho;
 }
+
+vector<No *> bubbleSort(vector<No *> vec)
+{
+    int i, j;
+    for (i = 0; i < vec.size() - 1; i++)
+    {
+        // Last i elements are already in place
+        for (j = 0; j < vec.size() - i - 1; j++)
+        {
+
+            if (vec[j] > vec[j + 1])
+            {
+                No *aux = vec[j];
+                vec[j] = vec[j + 1];
+                vec[j + 1] = aux;
+            }
+        }
+    }
+
+    return vec;
+};
