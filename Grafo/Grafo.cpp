@@ -3,7 +3,7 @@
 #include "Grafo.h"
 #include "../Tabuleiro.cpp"
 #include "No.h"
-#include "list"
+#include <list>
 
 using namespace std;
 
@@ -12,7 +12,6 @@ Grafo::Grafo()
     raiz = new No(1, -1, 0, 0, 0, new Tabuleiro());
     ordem = 1;
     nos.push_back(raiz);
-    cout << "SAI DO GRAFO" << endl;
 };
 
 // void Grafo::criaArvore()
@@ -42,25 +41,25 @@ Grafo::Grafo()
 // }
 // // }
 
-list<No *> Grafo::caminho(int id)
-{
-    list<No *> result;
-    No *no = buscaNo(id);
+// list<No *> Grafo::caminho(int id)
+// {
+//     list<No *> result;
+//     No *no = buscaNo(id);
 
-    if (id == 1)
-    {
-        caminhoAux(no, result);
-    }
+//     if (id == 1)
+//     {
+//         caminhoAux(no, result);
+//     }
 
-    return result;
-}
-list<No *> Grafo::caminhoAux(No *no, list<No*> result)
-{
-    if (no->getIdPai() != 0)
-    {
-        return caminhoAux(buscaNo(no->getIdPai()), result.push_back(buscaNo(no->getIdPai())));
-    }
-}
+//     return result;
+// }
+// list<No *> Grafo::caminhoAux(No *no, list<No*> result)
+// {
+//     if (no->getIdPai() != 0)
+//     {
+//         return caminhoAux(buscaNo(no->getIdPai()), result.push_back(buscaNo(no->getIdPai())));
+//     }
+// }
 
 void Grafo::ramificaNo(int idNo)
 {
