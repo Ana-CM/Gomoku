@@ -1,73 +1,158 @@
 #include <iostream>
-#include <iomanip>
-#include <cstdlib>
-#include <time.h>
-#include "../Grafo/Grafo.h"
-#include "../Grafo/No.h"
-#include "../Tabuleiro.cpp"
-#include <list>
 #include <vector>
+#include <queue>
+#include "../Tabuleiro.cpp"
+#include "../Grafo/No.h"
+#include "../Grafo/Grafo.h"
 
 using namespace std;
 
-void buscarSolucao(No *atual,vector<No*> abertos,vector<No*> fechados,Grafo *gomoku,int *contador);
+vector<No *> ordenacao(vector<No *> vec, Grafo *grafo);
 
-int main(){ 
-
-// Considerando peso da aresta = heuristica da jogada
-// vou andar e procurar o com maior heuristica
-// somar e procurar o maior sempre
-// e mantendo os possiveis caminhos em uma lista de abertos
-// cada vez q escolho 1 caminho ele se torna um fechado
-// final eu exibo a melhor solucao achada com maior custo real
+int main()
+{
+    vector<int> abertos;
+    vector<int> fechados;
+    vector<No *> ordenada;
     Grafo *gomoku = new Grafo();
-    vector<No*> fechados;
-    No *raiz = gomoku->getRaiz();
-    gomoku->ramificaNo(raiz->getId());
-    vector<No*> abertos = raiz->getFilhos();
-    int *contador = 0;
-    buscarSolucao(raiz,abertos,fechados,gomoku,contador);
+    No *aux;
+    No *no;
+    int cont = 0;
+
+
+    no = gomoku->getRaiz();
+    while (cont != 15)
+    {
+        gomoku->ramificaNo(no->getId());
+        aux = no;
+        no = aux->getFilhos().at(0);
+        cont++;
+    }
+
+    vector<No *> caminho;
+    no = gomoku->getRaiz();
+    abertos.push_back(no->getId());
+
+    while (true)
+    {
+        //gomoku->ramificaNo(no->getId());
+
+        // cout << endl;
+        // cout << "Abertos: ";
+        // for (auto i = abertos.begin(); i != abertos.end(); ++i) {
+        //      cout << *i << " " ;
+        // }
+        // cout << endl;
+
+        // cout << "Fechados: ";
+        // for (auto i = fechados.begin(); i != fechados.end(); ++i) {
+        //      cout << *i << " " ;
+        // }
+        // cout << endl;
+        // cout << endl;
+
+        fechados.push_back(no->getId());
+
+        for (auto i = abertos.begin(); i != abertos.end(); ++i)
+        {
+            if (*i == no->getId())
+            {
+                abertos.erase(i);
+                break;
+            }
+        }
+
+        if (no->getEstado() == 1)
+        {
+            cout << "Achou!" << endl;
+            cout << endl;
+            break;
+        }
+
+        if (no->getEstado() == 2)
+        {
+            cout << "perdeu" << endl;
+            break;
+
+            ordenada = ordenacao(ordenada, gomoku);
+            no = ordenada.front();
+            ordenada.erase(ordenada.begin());
+
+            cout << "Heuristica : " << no->getHeuristica() << endl;
+            no->getTabuleiro()->imprimeTabuleiro();
+
+            cout << endl;
+        }
+
+        if (no->getEstado() == 3)
+        {
+
+            for (size_t i = 0; i < no->getFilhos().size(); i++)
+            {
+                ordenada.push_back(no->getFilhos().at(i));
+                abertos.push_back((no->getFilhos().at(i))->getId());
+            }
+
+            ordenada = ordenacao(ordenada, gomoku);
+            no = ordenada.front();
+            ordenada.erase(ordenada.begin());
+
+            cout << "Heuristica : " << no->getHeuristica() << endl;
+            no->getTabuleiro()->imprimeTabuleiro();
+
+            cout << endl;
+        }
+    }
+
+    no->getTabuleiro()->imprimeTabuleiro();
+    cout << "Heuristica : " << no->getHeuristica() << endl;
+    no->getTabuleiro()->imprimeTabuleiro();
+    cout << endl;
+
+    caminho = gomoku->caminho(no->getId());
+    int totalCaminho = 0;
+    for (int i = caminho.size() - 1; i >= 0; i--)
+    {
+        totalCaminho += caminho.at(i)->getHeuristica();
+        cout << caminho.at(i)->getId() << " - ";
+    }
+    cout << endl;
+    cout << "Custo Real: " << totalCaminho << endl;
     return 0;
 }
 
+vector<No *> ordenacao(vector<No *> vec, Grafo *grafo)
+{
 
-void buscarSolucao(No *atual,vector<No*> abertos,vector<No*> fechados,Grafo *gomoku,int *contador) {
-
-    int heuristica=0;
-    int idHeuristica = 0;
-    No *candidato;
-    for(int i=0;i<atual->getFilhos().size();i++)
+    int nosDoCaminho;
+    int nosDoCaminho2;
+    vector<No *> caminho;
+    vector<No *> caminho2;
+    int i, j;
+    for (i = 0; i < vec.size() - 1; i++)
     {
-
-        int heuristicaAtual = atual->getFilhos().at(i)->getHeuristica();
-        cout << heuristicaAtual << endl;
-        if(heuristicaAtual>heuristica)
+        // Last i elements are already in place
+        for (j = 0; j < vec.size() - i - 1; j++)
         {
-            cout << "entrou aqui" << endl;
-            heuristica = heuristicaAtual;
-            idHeuristica = atual->getFilhos().at(i)->getId();
-            candidato = gomoku->buscaNo(idHeuristica);
+
+            caminho = grafo->caminho(vec[j]->getId());
+            caminho2 = grafo->caminho(vec[j + 1]->getId());
+            for (int w = 0; w < caminho.size(); w++)
+            {
+                nosDoCaminho += caminho.at(w)->getHeuristica();
+            }
+            for (int k = 0; k < caminho.size(); k++)
+            {
+                nosDoCaminho2 += caminho2.at(k)->getHeuristica();
+            }
+            if (nosDoCaminho >= nosDoCaminho2)
+            {
+                No *aux = vec[j];
+                vec[j] = vec[j + 1];
+                vec[j + 1] = aux;
+            }
         }
     }
-    vector<No*>::iterator it1 = (abertos.begin() + (candidato->getId() - 1));
-    abertos.erase(it1);
-    fechados.push_back(candidato);
-    if(candidato->getFilhos().size()>0) {
-        cout << "TA ENTRANDO AQUI?" << endl;
-        contador += heuristica;
-        cout << contador << endl;
-        buscarSolucao(candidato,abertos,fechados,gomoku,contador);
-    }
-}
-    // gomoku->ramificaNo(raiz->getId());
-    // gomoku->ramificaNo(raiz->getFilhos().at(0)->getId());
-    // cout << "Filhos: " << raiz->getFilhos().size() << endl;
 
-    // for (size_t i = 0; i < raiz->getFilhos().at(0)->getFilhos().size(); i++)
-    // {
-    //     raiz->getFilhos().at(0)->getFilhos().at(i)->getTabuleiro()->imprimeTabuleiro();
-    //     cout << "Estado" << raiz->getFilhos().at(0)->getFilhos().at(i)->getEstado() << endl;
-    //     cout << "Heuristica" << raiz->getFilhos().at(0)->getFilhos().at(i)->getHeuristica() << endl;
-    // }
-
-    // return 0;
+    return vec;
+};
