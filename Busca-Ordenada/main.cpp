@@ -13,16 +13,29 @@ int main()
 {
     vector<int> abertos;
     vector<int> fechados;
-    vector<No*> ordenada;
+    vector<No *> ordenada;
     Grafo *gomoku = new Grafo();
-    No *no = gomoku->getRaiz();
-    vector<No *> caminho;
+    No *aux;
+    No *no;
+    int cont = 0;
 
+    
+    no = gomoku->getRaiz();
+    // while (cont != 15)
+    // {
+    //     gomoku->ramificaNo(no->getId());
+    //     aux = no;
+    //     no = aux->getFilhos().at(0);
+    //     cont++;
+    // }
+
+    vector<No *> caminho;
+    no = gomoku->getRaiz();
     abertos.push_back(no->getId());
 
-    while( true ) {
-
-        gomoku->ramificaNo(no->getId());  
+    while (true)
+    {
+        gomoku->ramificaNo(no->getId());
 
         // cout << endl;
         // cout << "Abertos: ";
@@ -40,57 +53,77 @@ int main()
 
         fechados.push_back(no->getId());
 
-        for (auto i = abertos.begin(); i != abertos.end(); ++i) {
-            if (*i == no->getId()) {
+        for (auto i = abertos.begin(); i != abertos.end(); ++i)
+        {
+            if (*i == no->getId())
+            {
                 abertos.erase(i);
                 break;
             }
         }
 
-        if ( no->getEstado() == 1) {
+        if (no->getEstado() == 1)
+        {
             cout << "Achou!" << endl;
             cout << endl;
             break;
         }
-        
-        if ( no->getEstado() == 2) {
+
+        if (no->getEstado() == 2)
+        {
             cout << "perdeu" << endl;
             break;
-            
+
             ordenada = ordenacao(ordenada, gomoku);
             no = ordenada.front();
-            ordenada.erase(ordenada.begin()); 
+            ordenada.erase(ordenada.begin());
+
+            cout << "Heuristica : " << no->getHeuristica() << endl;
+            no->getTabuleiro()->imprimeTabuleiro();
+
+            cout << endl;
         }
 
-        if ( no->getEstado() == 3) {
+        if (no->getEstado() == 3)
+        {
 
             for (size_t i = 0; i < no->getFilhos().size(); i++)
             {
-                ordenada.push_back( no->getFilhos().at(i) );
+                ordenada.push_back(no->getFilhos().at(i));
                 abertos.push_back((no->getFilhos().at(i))->getId());
             }
 
             ordenada = ordenacao(ordenada, gomoku);
             no = ordenada.front();
-            ordenada.erase(ordenada.begin()); 
+            ordenada.erase(ordenada.begin());
+
+            cout << "Heuristica : " << no->getHeuristica() << endl;
+            no->getTabuleiro()->imprimeTabuleiro();
+
+            cout << endl;
         }
     }
 
     no->getTabuleiro()->imprimeTabuleiro();
-    
+    cout << "Heuristica : " << no->getHeuristica() << endl;
+    no->getTabuleiro()->imprimeTabuleiro();
+
     cout << endl;
 
-   caminho = gomoku->caminho(no->getId());
-
-    for (size_t i = fechados.size() - 1; i >= 0 ; i--)
+    caminho = gomoku->caminho(no->getId());
+    cout << caminho.size() << endl;
+    int totalCaminho = 0;
+    for (int i = caminho.size() - 1; i >= 0; i--)
     {
-        cout << caminho.at(i)->getId() << endl;
+        totalCaminho += caminho.at(i)->getHeuristica();
+        cout << caminho.at(i)->getId() << " - ";
     }
-
+    cout << endl;
+    cout << "Custo Real: " << totalCaminho << endl;
     return 0;
 }
 
-vector<No *> ordenacao(vector<No *> vec,Grafo *grafo)
+vector<No *> ordenacao(vector<No *> vec, Grafo *grafo)
 {
 
     int nosDoCaminho;
@@ -106,20 +139,20 @@ vector<No *> ordenacao(vector<No *> vec,Grafo *grafo)
 
             caminho = grafo->caminho(vec[j]->getId());
             caminho2 = grafo->caminho(vec[j + 1]->getId());
-            for (int i = 0; i < caminho.size();i++)
+            for (int w = 0; w < caminho.size(); w++)
             {
-                nosDoCaminho += caminho.at(i)->getHeuristica();
+                nosDoCaminho += caminho.at(w)->getHeuristica();
             }
-               for (int i = 0; i < caminho.size();i++)
+            for (int k = 0; k < caminho.size(); k++)
             {
-                nosDoCaminho2 += caminho2.at(i)->getHeuristica();
+                nosDoCaminho2 += caminho2.at(k)->getHeuristica();
             }
-                if (nosDoCaminho>=nosDoCaminho2)
-                {
-                    No *aux = vec[j];
-                    vec[j] = vec[j + 1];
-                    vec[j + 1] = aux;
-                }
+            if (nosDoCaminho >= nosDoCaminho2)
+            {
+                No *aux = vec[j];
+                vec[j] = vec[j + 1];
+                vec[j + 1] = aux;
+            }
         }
     }
 

@@ -93,13 +93,23 @@ vector<No *> buscaGulosa(Grafo *gomoku)
                 abertos.erase(abertos.begin());
             }
         }
-
     }
     if (flag == false)
     {
         cout << "Encontrado Solução" << endl;
     }
 
+    cout << "Abertos : " << endl;
+    for (size_t i = 0; i < abertos.size(); i++)
+    {
+        cout << abertos.at(i)->getId() << endl;
+    }
+
+    cout << "Fechados : " << endl;
+    for (size_t i = 0; i < caminho.size(); i++)
+    {
+        cout << caminho.at(i)->getId() << endl;
+    }
     return caminho;
 }
 
