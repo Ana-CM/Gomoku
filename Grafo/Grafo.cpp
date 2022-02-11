@@ -3,7 +3,7 @@
 #include "Grafo.h"
 #include "../Tabuleiro.cpp"
 #include "No.h"
-#include <list>
+#include <vector>
 
 using namespace std;
 
@@ -70,7 +70,7 @@ void Grafo::setNo(int idPai, int coluna, int linha)
     }
 };
 
-list<No *> Grafo::getNos()
+vector<No *> Grafo::getNos()
 {
     return nos;
 };
@@ -81,7 +81,7 @@ No *Grafo::getRaiz()
 }
 No *Grafo::buscaNo(int id)
 {
-    std::list<No *>::iterator it = nos.begin();
+    std::vector<No *>::iterator it = nos.begin();
     for (; it != nos.end(); ++it)
     {
         if ((*it)->getId() == id)

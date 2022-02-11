@@ -10,7 +10,7 @@
 
 using namespace std;
 
-int buscarSolucao(No *atual,vector<No*> *abertos,vector<No*> *fechados,Grafo *gomoku);
+void buscarSolucao(No *atual,vector<No*> abertos,vector<No*> fechados,Grafo *gomoku,int *contador);
 
 int main(){ 
 
@@ -21,48 +21,43 @@ int main(){
 // cada vez q escolho 1 caminho ele se torna um fechado
 // final eu exibo a melhor solucao achada com maior custo real
     Grafo *gomoku = new Grafo();
-    list<No*>::iterator it1;
-    vector<No *> *abertos;
-    for (it1 = gomoku->getNos().begin(); it1 != gomoku->getNos().end();it1++)
-    {
-        abertos->push_back(*it1);
-    }
-    vector<No*> *fechados;
+    vector<No*> fechados;
     No *raiz = gomoku->getRaiz();
     gomoku->ramificaNo(raiz->getId());
-    int result = buscarSolucao(raiz,abertos,fechados,gomoku);
-    cout << result;
+    vector<No*> abertos = raiz->getFilhos();
+    int *contador = 0;
+    buscarSolucao(raiz,abertos,fechados,gomoku,contador);
     return 0;
 }
 
 
-int buscarSolucao(No *atual,vector<No*> *abertos,vector<No*> *fechados,Grafo *gomoku) {
+void buscarSolucao(No *atual,vector<No*> abertos,vector<No*> fechados,Grafo *gomoku,int *contador) {
 
     int heuristica=0;
-    int contador = 0;
     int idHeuristica = 0;
     No *candidato;
     for(int i=0;i<atual->getFilhos().size();i++)
     {
 
         int heuristicaAtual = atual->getFilhos().at(i)->getHeuristica();
+        cout << heuristicaAtual << endl;
         if(heuristicaAtual>heuristica)
         {
+            cout << "entrou aqui" << endl;
             heuristica = heuristicaAtual;
             idHeuristica = atual->getFilhos().at(i)->getId();
             candidato = gomoku->buscaNo(idHeuristica);
-            cout << idHeuristica << endl;
         }
     }
-    vector<No*>::iterator it1 = (abertos->begin() + (candidato->getId() - 1));
-    abertos->erase(it1);
-    fechados->push_back(candidato);
+    vector<No*>::iterator it1 = (abertos.begin() + (candidato->getId() - 1));
+    abertos.erase(it1);
+    fechados.push_back(candidato);
     if(candidato->getFilhos().size()>0) {
+        cout << "TA ENTRANDO AQUI?" << endl;
         contador += heuristica;
-        return buscarSolucao(candidato,abertos,fechados,gomoku) + contador;
+        cout << contador << endl;
+        buscarSolucao(candidato,abertos,fechados,gomoku,contador);
     }
-    else
-        return contador;
 }
     // gomoku->ramificaNo(raiz->getId());
     // gomoku->ramificaNo(raiz->getFilhos().at(0)->getId());
