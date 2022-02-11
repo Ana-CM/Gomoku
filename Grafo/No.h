@@ -17,11 +17,15 @@ public:
     int getHeuristica();
     int getEstado();
     int getIdPai();
-    void addFilho(No* no);
+    void addFilho(No *no);
     int getJogador();
-    void calculaHeuristica();
-    vector<No*> getFilhos();
+    int calculaHeuristica();
+    vector<No *> getFilhos();
     void preencheTabuleiro(Tabuleiro *tab);
+    bool operator==(const No &no) { return (heuristica == no.heuristica); }
+    bool operator!=(const No &no) { return (heuristica != no.heuristica); }
+    bool operator< (const No &no) { return (heuristica < no.heuristica);  }
+    bool operator> (const No &no) { return (heuristica > no.heuristica);  }
 
 private:
     int id;
@@ -30,7 +34,7 @@ private:
     int heuristica;
     int jogador;
     int estado;
-    vector<No*> filhos;
+    vector<No *> filhos;
 };
 
 #endif

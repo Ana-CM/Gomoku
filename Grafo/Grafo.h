@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <list>
+#include <vector>
 #include "No.h"
 
 class Grafo
@@ -10,7 +11,7 @@ class Grafo
 public:
     Grafo();
     ~Grafo();
-    list<No *> getNos();
+    vector<No *> getNos();
     list<No *> getNosAbertos();
     list<No *> getNosFechados();
     void ramificaNo(int idNo);
@@ -19,11 +20,11 @@ public:
     No* getRaiz();
     void fazerJogadas();
     void criaArvore();
-    // list<No *> caminho(int id);
-    // void caminho(int id );
+    vector<No *> caminho(int id);
+
 private:
     int ordem;
-    list<No *> nos;
+    vector<No *> nos;
     list<No *> nosAbertos;
     list<No *> nosFechados;
     No *raiz;
