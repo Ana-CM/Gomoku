@@ -21,13 +21,13 @@ int main()
 
 
     no = gomoku->getRaiz();
-    // while (cont != 15)
-    // {
-    //     gomoku->ramificaNo(no->getId());
-    //     aux = no;
-    //     no = aux->getFilhos().at(0);
-    //     cont++;
-    // }
+    while (cont != 15)
+    {
+        gomoku->ramificaNo(no->getId());
+        aux = no;
+        no = aux->getFilhos().at(0);
+        cont++;
+    }
 
     vector<No *> caminho;
     no = gomoku->getRaiz();
@@ -35,7 +35,7 @@ int main()
 
     while (true)
     {
-        gomoku->ramificaNo(no->getId());
+        //gomoku->ramificaNo(no->getId());
 
         // cout << endl;
         // cout << "Abertos: ";
@@ -108,7 +108,7 @@ int main()
     cout << "Heuristica : " << no->getHeuristica() << endl;
     no->getTabuleiro()->imprimeTabuleiro();
     cout << endl;
-    
+
     caminho = gomoku->caminho(no->getId());
     int totalCaminho = 0;
     for (int i = caminho.size() - 1; i >= 0; i--)

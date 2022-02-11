@@ -29,7 +29,23 @@ int main()
     cout << "=============================================" << endl;
     vector<No *> caminho = buscaGulosa(gomoku);
 
-    cout << "Custo Real: " << calculaCaminho(caminho) << endl;
+    if (!caminho.empty())
+    {
+        int custoReal = 0;
+        for (size_t i = 0; i < caminho.size(); i++)
+        {
+            //cout << "Tabuleiro : " << caminho.at(i)->getId() << endl;
+            //caminho.at(i)->getTabuleiro()->imprimeTabuleiro();
+            cout << endl;
+            custoReal += caminho.at(i)->getHeuristica();
+        }
+
+        cout << "Custo Real: " << custoReal << endl;
+    }
+    else
+    {
+        cout << "Não Foi Encontrada Solução." << endl;
+    }
 }
 
 vector<No *> buscaGulosa(Grafo *gomoku)
@@ -41,6 +57,8 @@ vector<No *> buscaGulosa(Grafo *gomoku)
     bool flag = true;
     while (flag)
     {
+
+        //gomoku->ramificaNo(no->getId());
 
         if (noAtual->getEstado() == 1)
         {
@@ -83,6 +101,18 @@ vector<No *> buscaGulosa(Grafo *gomoku)
         cout << "Encontrado Solução" << endl;
     }
 
+    cout << "Abertos : " << endl;
+    for (size_t i = 0; i < abertos.size(); i++)
+    {
+        cout << abertos.at(i)->getId() << "-";
+    }
+    cout << endl;
+    cout << "Fechados : " << endl;
+    for (size_t i = 0; i < caminho.size(); i++)
+    {
+        cout << caminho.at(i)->getId() << "-";
+    }
+
     return caminho;
 }
 
@@ -115,7 +145,7 @@ int calculaCaminho(vector<No *> caminho)
     {
 
         for (size_t i = 0; i < caminho.size(); i++)
-        {   
+        {
             custoReal += caminho.at(i)->getHeuristica();
         }
     }

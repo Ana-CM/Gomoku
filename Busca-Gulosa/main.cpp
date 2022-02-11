@@ -34,8 +34,8 @@ int main()
         int custoReal = 0;
         for (size_t i = 0; i < caminho.size(); i++)
         {
-            cout << "Tabuleiro : " << caminho.at(i)->getId() << endl;
-            caminho.at(i)->getTabuleiro()->imprimeTabuleiro();
+            //cout << "Tabuleiro : " << caminho.at(i)->getId() << endl;
+            //caminho.at(i)->getTabuleiro()->imprimeTabuleiro();
             cout << endl;
             custoReal += caminho.at(i)->getHeuristica();
         }
@@ -57,6 +57,9 @@ vector<No *> buscaGulosa(Grafo *gomoku)
     bool flag = true;
     while (flag)
     {
+
+        //gomoku->ramificaNo(no->getId());
+        
 
         if (noAtual->getEstado() == 1)
         {
@@ -102,13 +105,13 @@ vector<No *> buscaGulosa(Grafo *gomoku)
     cout << "Abertos : " << endl;
     for (size_t i = 0; i < abertos.size(); i++)
     {
-        cout << abertos.at(i)->getId() << endl;
+        cout << abertos.at(i)->getId() << "-";
     }
-
+    cout << endl;
     cout << "Fechados : " << endl;
     for (size_t i = 0; i < caminho.size(); i++)
     {
-        cout << caminho.at(i)->getId() << endl;
+        cout << caminho.at(i)->getId() << "-";
     }
     return caminho;
 }
