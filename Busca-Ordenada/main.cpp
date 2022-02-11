@@ -19,7 +19,7 @@ int main()
     No *no;
     int cont = 0;
 
-    
+
     no = gomoku->getRaiz();
     // while (cont != 15)
     // {
@@ -107,11 +107,9 @@ int main()
     no->getTabuleiro()->imprimeTabuleiro();
     cout << "Heuristica : " << no->getHeuristica() << endl;
     no->getTabuleiro()->imprimeTabuleiro();
-
     cout << endl;
-
+    
     caminho = gomoku->caminho(no->getId());
-    cout << caminho.size() << endl;
     int totalCaminho = 0;
     for (int i = caminho.size() - 1; i >= 0; i--)
     {
