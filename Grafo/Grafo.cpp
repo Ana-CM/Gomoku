@@ -42,25 +42,25 @@ Grafo::Grafo()
 // }
 // // }
 
-list<No *> Grafo::caminho(int id)
-{
-    list<No *> result;
-    No *no = buscaNo(id);
+// list<No *> Grafo::caminho(int id)
+// {
+//     list<No *> result;
+//     No *no = buscaNo(id);
 
-    if (id == 1)
-    {
-        caminhoAux(no, result);
-    }
+//     if (id == 1)
+//     {
+//         caminhoAux(no, result);
+//     }
 
-    return result;
-}
-list<No *> Grafo::caminhoAux(No *no, list<No*> result)
-{
-    if (no->getIdPai() != 0)
-    {
-        return caminhoAux(buscaNo(no->getIdPai()), result.push_back(buscaNo(no->getIdPai())));
-    }
-}
+//     return result;
+// }
+// list<No *> Grafo::caminhoAux(No *no, list<No*> result)
+// {
+//     if (no->getIdPai() != 0)
+//     {
+//         return caminhoAux(buscaNo(no->getIdPai()), result.push_back(buscaNo(no->getIdPai())));
+//     }
+// }
 
 void Grafo::ramificaNo(int idNo)
 {
@@ -69,22 +69,19 @@ void Grafo::ramificaNo(int idNo)
     {
         for (size_t j = 0; j < 4; j++)
         {
-
             if (no->getTabuleiro()->verificarCasa(j, i) == 0)
             {
-                setNo(idNo, i, j);
+                setNo(idNo, j, i);
             }
         }
     }
 }
 void Grafo::setNo(int idPai, int coluna, int linha)
 {
-
     No *noPai = buscaNo(idPai);
 
     if (noPai == raiz || noPai->getJogador() == 2)
     {
-
         ordem++;
         No *novoNo = new No(ordem, idPai, coluna, linha, 1, noPai->getTabuleiro());
         nos.push_back(novoNo);
@@ -92,7 +89,6 @@ void Grafo::setNo(int idPai, int coluna, int linha)
     }
     else
     {
-
         ordem++;
         No *novoNo = new No(ordem, idPai, coluna, linha, 2, noPai->getTabuleiro());
         nos.push_back(novoNo);

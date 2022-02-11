@@ -1,62 +1,78 @@
-
 #include <iostream>
-#include <iomanip>
-#include <time.h>
 #include <vector>
 #include <stack>
-#include <list>
+#include "../Tabuleiro.cpp"
+#include "../Grafo/No.h"
+#include "../Grafo/Grafo.h"
+
 using namespace std;
 
-// Regras
-// preta sempre começa
-// as jogas serão feitas de formas alternadas entre as peças pretas e brancas.
-// só poderá ser posicionada um peça em casa do tabuleiro que não esteja sendo ocupada por outra peça.
-// o jogo termina quando quando em tiver quatro peças consecutivas de cor preta.
+int main()
+{
+    vector<int> abertos;
+    vector<int> fechados;
+    stack<No*> pilha;
+    Grafo *gomoku = new Grafo();
+    No *no = gomoku->getRaiz();
 
-
-bool ganhou( int tabuleiro ) {
-
-}
-
-bool perdeu( int tabuleiro ) {
-
-}
-
-vector int filhos( int tabuleiro ) {
-
-}
-
-int jogar_branco( int tabuleiro ) {
-
-}
-
-void imprime_caminho( ) {
-
-}
-
-int main() {
-
-    const int num = 4;
-    int tabuleiro[num][num] = {0};
-    vector int visitados;
-    stack<int> aberto;
-    list<int> fechado;
+    abertos.push_back(no->getId());
 
     while( true ) {
 
-        if ( ganhou( tabuleiro ) ) {
-            break;
+        gomoku->ramificaNo(no->getId());  
+
+        cout << endl;
+        cout << "Abertos: ";
+        for (auto i = abertos.begin(); i != abertos.end(); ++i) {
+             cout << *i << " " ;
+        }
+        cout << endl;
+
+        cout << "Fechados: ";
+        for (auto i = fechados.begin(); i != fechados.end(); ++i) {
+             cout << *i << " " ;
+        }
+        cout << endl;
+        cout << endl;
+
+        fechados.push_back(no->getId());
+
+        for (auto i = abertos.begin(); i != abertos.end(); ++i) {
+            if (*i == no->getId()) {
+                abertos.erase(i);
+                break;
+            }
         }
 
-        aberto.push( filhos( tabuleiro ) );
-        fechado.push_back( tabuleiro);
+        if ( no->getEstado() == 1) {
+            cout << "Achou!" << endl;
+            cout << endl;
+            break;
+        }
+        
+        if ( no->getEstado() == 2) {
+            cout << "perdeu" << endl;
+            no = pilha.top();
+            pilha.pop(); 
+        }
 
-        tabuleiro = aberto.pop(); 
+        if ( no->getEstado() == 3) {
 
+            for (size_t i = 0; i < no->getFilhos().size(); i++)
+            {
+                pilha.push( no->getFilhos().at(i) );
+                abertos.push_back((no->getFilhos().at(i))->getId());
+            } 
 
-
-
+            no = pilha.top();
+            pilha.pop(); 
+        }
     }
-    
+
+    no->getTabuleiro()->imprimeTabuleiro();
+    //TODO: imprimir caminho.
+
     return 0;
 }
+    
+
