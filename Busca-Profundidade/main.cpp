@@ -14,6 +14,7 @@ int main()
     stack<No*> pilha;
     Grafo *gomoku = new Grafo();
     No *no = gomoku->getRaiz();
+    vector<No *> caminho;
 
     abertos.push_back(no->getId());
 
@@ -70,7 +71,14 @@ int main()
     }
 
     no->getTabuleiro()->imprimeTabuleiro();
-    //TODO: imprimir caminho.
+    cout << endl;
+
+   caminho = gomoku->caminho(no->getId());
+
+    for (size_t i = fechados.size() - 1; i >= 0 ; i--)
+    {
+        cout << caminho.at(i)->getId() << endl;
+    }
 
     return 0;
 }
